@@ -3,6 +3,16 @@ const app = express()
 
 app.use(express.json())
 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
+app.use(requestLogger)
+
 let matches  = [
   {id:1, date: Date('February 22, 2024 15:30:00'), p1:'nh', p2:'pc', s1:10, s2:12, elo1:0, elo2:0},
   {id:2, date: Date('February 22, 2024 15:35:00'), p1:'nh', p2:'pc', s1:16, s2:14, elo1:0, elo2:0},
@@ -68,7 +78,7 @@ const isNumber = (n) => {
 }
 
 const validate = (body) => {
-  if(!body.n1 || !body.n2 || !body.s1 || !isNumber(s1) || !body.s2 || !isNumber(s2)) {
+  if(!body.p1 || !body.p2 || !body.s1  || !body.s2 || !isNumber(body.s1) || !isNumber(body.s2)) {
     return false
   }
 
@@ -77,8 +87,16 @@ const validate = (body) => {
 
 app.post('/api/matches', (request, response) => {
   const body = request.body
-  validate(body)
+
+  if(!validate(body)) {
+    return response.status(400).json({ 
+      error: 'incorrect content' 
+    })
+  }
+
   const date = Date()
+
+  let match = body
 
   match.id = generateId()
   match.date = date
@@ -89,6 +107,12 @@ app.post('/api/matches', (request, response) => {
 })
 
 app.get('')
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT)
