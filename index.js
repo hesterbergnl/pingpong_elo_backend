@@ -55,15 +55,32 @@ app.delete('/api/matches/:id', (request, response) => {
   response.status(204).end()
 })
 
-app.post('/api/matches', (request, response) => {
+const generateId = () => {
   const maxId = matches.length > 0
     ? Math.max(...matches.map(n => n.id))
     : 0
-  
+
+  return maxId + 1
+}
+
+const isNumber = (n) => {
+  return !isNaN(parseFloat(n)) && !isNaN(n - 0) 
+}
+
+const validate = (body) => {
+  if(!body.n1 || !body.n2 || !body.s1 || !isNumber(s1) || !body.s2 || !isNumber(s2)) {
+    return false
+  }
+
+  return true
+}
+
+app.post('/api/matches', (request, response) => {
+  const body = request.body
+  validate(body)
   const date = Date()
 
-  const match = request.body
-  match.id = maxId + 1
+  match.id = generateId()
   match.date = date
 
   matches = matches.concat(match)
