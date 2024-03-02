@@ -5,6 +5,10 @@ const playerSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  elo: {
+    type: Number,
+    required: true
+  }
 })
 
 playerSchema.set('toJSON', {

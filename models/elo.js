@@ -8,8 +8,7 @@ const eloSchema = mongoose.Schema({
       },
     match: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Match',
-        required: true
+        ref: 'Match'
     },
     elo: {
         type: Number,

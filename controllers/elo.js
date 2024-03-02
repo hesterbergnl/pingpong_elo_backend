@@ -43,7 +43,7 @@ eloRouter.post('/', async (req, res) => {
 
   const eloObject = new Elo ({
     player: playerObject._id,
-    match: matchObject._id,
+    match: matchObject === null ? null : matchObject._id,
     elo: elo
   })
 
