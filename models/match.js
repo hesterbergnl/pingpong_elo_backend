@@ -36,9 +36,11 @@ matchSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
-        delete returnedObject_v
+        delete returnedObject.__v
     }
 })
+
+//TODO: Add validation for scores
 
 const Match = mongoose.model('Match', matchSchema)
 

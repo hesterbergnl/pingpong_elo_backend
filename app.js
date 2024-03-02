@@ -3,9 +3,10 @@ const express = require('express')
 const app = express()
 require('express-async-errors')
 const cors = require('cors')
+
 const matchRouter = require('./controllers/match')
 const playerRouter = require('./controllers/player')
-const eloRouter = require('/controllers/elo')
+const eloRouter = require('./controllers/elo')
 
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
@@ -15,7 +16,7 @@ mongoose.set('strictQuery', false)
 
 logger.info('connecting to', config.MONGODB_URL)
 
-mongoose.connect(config.MONGODB_URI)
+mongoose.connect(config.MONGODB_URL)
   .then(() => {
     logger.info('connected to MongoDB')
   })

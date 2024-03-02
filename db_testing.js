@@ -18,18 +18,20 @@ mongoose.connect(url)
       console.log(`error connecting to MongoDB: ${error.message}`)
   })
 
-const nh = new Player({
+let nh = new Player({
   name: 'nh'
 })
 
-const pc = new Player({
+let pc = new Player({
   name: 'pc'
 })
 
 nh.save().then(result => {
   console.log(result)
+  nh = result
   pc.save().then(result=>{
     console.log(result)
+    pc = result
 
     const match = new Match({
       date: Date(),
