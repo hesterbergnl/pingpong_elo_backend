@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const playerSchema = new mongoose.Schema({
   name: {
-    type: Name,
+    type: String,
     required: true
   },
   elo: [
