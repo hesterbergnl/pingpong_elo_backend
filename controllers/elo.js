@@ -57,4 +57,9 @@ eloRouter.delete('/:id', async (req, res) => {
   res.status(204).end()
 })
 
+eloRouter.delete('/', async (req, res) => {
+  await Elo.collection.drop()
+  res.status(204).end()
+})
+
 module.exports = eloRouter
