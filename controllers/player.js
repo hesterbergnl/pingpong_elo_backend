@@ -23,7 +23,7 @@ playerRouter.put('/:id', async (req, res) => {
   }
 
   const updatedPlayer = await Player.findByIdAndUpdate(req.params.id, player, { new: true })
-  res.json(updatedPlayer)
+  res.status(201).json(updatedPlayer)
 })
 
 playerRouter.get('/', async (req, res) => {
