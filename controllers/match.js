@@ -38,6 +38,9 @@ matchRouter.post('/', async (req, res) => {
   const player1 = await Player.findById(p1)
   const player2 = await Player.findById(p2)
 
+  console.log(player1)
+  console.log(player2)
+
   const match = new Match ({
     date: date,
     p1: player1._id,
@@ -48,7 +51,8 @@ matchRouter.post('/', async (req, res) => {
     elo2: elo2
   })
 
-  const newMatch = await match.save()
+  const newMatch = await (await (await match.save()).populate('p1')).populate('p2')
+  //const populatedMatch = await newMatch.populate()
 
   res.status(201).json(newMatch)
 })
