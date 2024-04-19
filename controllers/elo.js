@@ -10,7 +10,7 @@ eloRouter.get('/', async (req, res) => {
 })
 
 eloRouter.get('/:player', async (req, res) => {
-  const playerObject = await Player.findById(req.params.player)
+  const playerObject = await Player.findById(req.params.player).populate('player', {name: 1}).populate('match')
   
   const elo = await Elo
     .find({ player: playerObject })
@@ -47,7 +47,7 @@ eloRouter.post('/', async (req, res) => {
     elo: elo
   })
 
-  const newElo = await eloObject.save()
+  const newElo = await (await (await eloObject.save()).populate('player', {name: 1})).populate('match')
 
   res.status(201).json(newElo)
 })
