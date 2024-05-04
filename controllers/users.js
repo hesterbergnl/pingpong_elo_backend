@@ -10,7 +10,7 @@ usersRouter.post('/', async (req, res) => {
   const passwordHash = await bcrypt.hash(password, saltRounds)
 
   const user = new User({
-    user,
+    username,
     name,
     passwordHash
   })
@@ -18,6 +18,11 @@ usersRouter.post('/', async (req, res) => {
   const savedUser = await user.save()
 
   res.status(201).json(savedUser)
+})
+
+usersRouter.get('/', async (req, res) => {
+  const users = await User.find({})
+  response.json(users)
 })
 
 model.exports = usersRouter
