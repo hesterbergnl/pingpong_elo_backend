@@ -23,9 +23,9 @@ loginRouter.post('/', async (req, res) => {
     id: user._id
   }
 
-  const token = jwt.sign(userForToken, provess.env.SECRET)
+  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: 60 * 30 })
 
-  response
+  res
     .status(200)
     .send({ token, username: user.username, name: user.name })
 })

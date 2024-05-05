@@ -4,7 +4,7 @@ const User = require('../models/user')
 const { model } = require('mongoose')
 
 usersRouter.post('/', async (req, res) => {
-  const { username, name, password } = request.body
+  const { username, name, password } = req.body
 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
@@ -25,4 +25,4 @@ usersRouter.get('/', async (req, res) => {
   response.json(users)
 })
 
-model.exports = usersRouter
+module.exports = usersRouter

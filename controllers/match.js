@@ -2,6 +2,14 @@ const matchRouter = require('express').Router()
 const Match = require('../models/match')
 const Player = require('../models/player')
 
+const getTokenFrom = (req) => {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
+
 matchRouter.get('/', async (req, res) => {
   const matches = await Match
     .find({}).populate('p1', { name: 1 }).populate('p2', { name: 1 })
@@ -79,6 +87,11 @@ matchRouter.put('/:id', async (req, res) => {
 })
 
 matchRouter.delete('/:id', async (req, res) => {
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET)                         
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: 'token invalid' })
+  }
+
   await Match.findByIdAndDelete(req.params.id)
   res.status(204).end()
 })
