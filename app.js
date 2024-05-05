@@ -6,7 +6,6 @@ const cors = require('cors')
 
 const matchRouter = require('./controllers/match')
 const playerRouter = require('./controllers/player')
-const eloRouter = require('./controllers/elo')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 
@@ -34,7 +33,6 @@ app.use(middleware.requestLogger)
 
 app.use('/api/match', matchRouter)
 app.use('/api/player', playerRouter)
-app.use('/api/elo', eloRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
