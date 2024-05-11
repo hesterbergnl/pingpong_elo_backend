@@ -1,6 +1,7 @@
 const matchRouter = require('express').Router()
 const Match = require('../models/match')
 const Player = require('../models/player')
+const jwt = require('jsonwebtoken')
 
 const getTokenFrom = (req) => {
   const authorization = req.get('authorization')
