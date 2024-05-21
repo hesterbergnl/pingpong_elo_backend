@@ -1,6 +1,19 @@
 const playerRouter = require('express').Router()
 const Player = require('../models/player')
 const jwt = require('jsonwebtoken')
+const multer = require('multer')
+
+//setup multer for file storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 const getTokenFrom = (req) => {
   const authorization = req.get('authorization')
@@ -10,8 +23,9 @@ const getTokenFrom = (req) => {
   return null
 }
 
-playerRouter.post('/', async (req, res) => {
+playerRouter.post('/', upload.single('photo'), async (req, res) => {
   const {name, elo} = req.body
+  console.log(req.file)
 
   const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET)                         
   if (!decodedToken.id) {
@@ -20,7 +34,8 @@ playerRouter.post('/', async (req, res) => {
   
   const player = new Player({
     name: name,
-    elo: elo
+    elo: elo,
+    photo: req.file.path.split('\\')[1],
   })
 
   const newPlayer = await player.save()

@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 require('express-async-errors')
 const cors = require('cors')
+const path = require('path')
 
 const matchRouter = require('./controllers/match')
 const playerRouter = require('./controllers/player')
@@ -12,6 +13,7 @@ const loginRouter = require('./controllers/login')
 
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
+
 const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
@@ -28,6 +30,7 @@ mongoose.connect(config.MONGODB_URL)
 
 app.use(cors())
 app.use(express.static('dist'))
+app.use(express.static('uploads'))
 app.use(express.json())
 app.use(middleware.requestLogger)
 

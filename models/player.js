@@ -8,6 +8,10 @@ const playerSchema = new mongoose.Schema({
   elo: {
     type: Number,
     required: true
+  },
+  photo: {
+    type: String,
+    required: false
   }
 })
 
