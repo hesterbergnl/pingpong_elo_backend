@@ -1,22 +1,6 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 
-const scoreValidator = (value) => {
-  console.log(value)
-  console.log(this.s2)
-  console.log('abs validator', Math.abs(value - this.s2))
-  if (value < 11 && this.s2 < 11) {
-    return false
-  }
-  else if (Math.abs(value - this.s2) <= 2) {
-    return false
-  }
-  else {
-    return true
-  }
-}
-
-//TODO: Add some more complex validation for Pingpong scores
 const matchSchema = new mongoose.Schema({
     date: Date,
     p1: {

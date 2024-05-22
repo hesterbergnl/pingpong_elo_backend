@@ -2,6 +2,7 @@ const playerRouter = require('express').Router()
 const Player = require('../models/player')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
+var fs = require('fs')
 
 //setup multer for file storage
 const storage = multer.diskStorage({
@@ -31,11 +32,19 @@ playerRouter.post('/', upload.single('photo'), async (req, res) => {
   if (!decodedToken.id) {
     return res.status(401).json({ error: 'token invalid' })
   }
+
+  var photo = 'default-image.jpeg'
+
+  console.log(req.file)
+
+  if (req.file) {
+    photo = req.file.path.split('\\')[1]
+  }
   
   const player = new Player({
     name: name,
     elo: elo,
-    photo: req.file.path.split('\\')[1],
+    photo: photo,
   })
 
   const newPlayer = await player.save()
@@ -76,8 +85,20 @@ playerRouter.delete('/:id', async (req, res) => {
   if (!decodedToken.id) {
     return res.status(401).json({ error: 'token invalid' })
   }
-  
+  const player = await Player.findById(req.params.id)
+  if(player.photo !== null && player.photo !== 'default-image.jpeg') {
+    const oldPath = 'uploads/' + player.photo
+    if (fs.existsSync(oldPath)) {
+      fs.unlink(oldPath, (err) => {
+        if (err) {
+          console.error(err);
+        }
+      })
+    }
+  }
+
   await Player.findByIdAndDelete(req.params.id)
+
   res.status(204).end()
 })
 
