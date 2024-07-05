@@ -39,7 +39,7 @@ playerRouter.post('/', upload.single('photo'), async (req, res) => {
   console.log(req.file)
 
   if (req.file) {
-    photo = req.file.path.split('\\')[1]
+    photo = req.file.originalname
   }
   
   const player = new Player({
