@@ -43,7 +43,7 @@ matchSchema.path('s1').validate(function(value) {
   if (value < 11 && this.get('s2') < 11) {
     return false
   }
-  else if (Math.abs(value - this.get('s2')) <= 2) {
+  else if (Math.abs(value - this.get('s2')) < 2) {
     return false
   }
   else {
