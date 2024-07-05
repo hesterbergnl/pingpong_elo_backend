@@ -1,4 +1,5 @@
 const playerRouter = require('express').Router()
+const config = require('../utils/config')
 const Player = require('../models/player')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
@@ -33,7 +34,7 @@ playerRouter.post('/', upload.single('photo'), async (req, res) => {
     return res.status(401).json({ error: 'token invalid' })
   }
 
-  var photo = 'default-image.jpeg'
+  var photo = config.DEFAULT_IMG
 
   console.log(req.file)
 
